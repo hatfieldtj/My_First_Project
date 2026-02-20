@@ -114,8 +114,28 @@ Script reads J value (calculated) and writes it into the YTD Paid ADP cell (col 
 | Felecia Walker | J128 = B131+E128 | E128 |
 | Josh Saxon | J139 = B144+E140 | E140 |
 
-### Step 3 — Update Clio revenue (Revenue sheet)
-Update Revenue sheet, Column C, rows 34–42 with new Clio all-time totals from CSV.
+### Step 3 — Update Clio revenue & recalculate totals
+Data flow:
+1. Write new Clio all-time totals → Revenue sheet, Col C, rows 34–42
+2. Calculate new total: `PCLaw (Col B, fixed) + Clio (Col C, new)` in Python
+3. Write that total → Revenue sheet, Col D, rows 34–42
+4. Write same total → Payroll sheet, Col F, rows 35–43 (values only, no formulas)
+
+Note: PCLaw values (Revenue sheet Col B) are fixed and never change.
+Note: openpyxl cannot evaluate formulas, so the D=B+C math is done in Python directly.
+
+Row mapping (Revenue → Payroll):
+| Revenue Sheet | Payroll Sheet | Attorney |
+|---------------|---------------|----------|
+| C34, D34 | F35 | John Whiteman |
+| C35, D35 | F36 | James Hatfield |
+| C36, D36 | F37 | James Whitehouse |
+| C37, D37 | F38 | David Abraham |
+| C38, D38 | F39 | Shaun Saliba |
+| C39, D39 | F40 | Ann Miles |
+| C40, D40 | F41 | Rachael Greene |
+| C41, D41 | F42 | Felecia Walker |
+| C42, D42 | F43 | Josh Saxon |
 
 ### Step 4 — Save & push to GitHub
 
