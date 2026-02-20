@@ -161,10 +161,37 @@ Section boundaries detected via borders:
 - Start: medium top border on Col A (attorney name header)
 - End: double bottom border on Col B (Paid This Period row)
 
+## Clio CSV Findings & Revenue Approach
+
+### Problem discovered:
+- Clio's CSV export (even with "all dates") does NOT include all historical closed/archived matters
+- Web view shows correct all-time totals (confirmed: Ann Miles web = 386,862.40 ✓)
+- CSV only captured 231,351.83 for Ann Miles — missing ~$155K of historical data
+- No other Clio report type available that exports correct all-time per-attorney totals
+- No Clio API access on current plan
+- Running 9 individual reports manually is what we're trying to eliminate
+
+### Solution: Delta approach
+- Save each period's combined CSV after running it
+- Script compares new CSV vs previous CSV per attorney → calculates delta (new revenue this period)
+- Adds delta to the existing all-time total already in the spreadsheet
+- Spreadsheet running total stays accurate without needing all-time totals from Clio
+- User only needs to export ONE combined report per pay period (already doing this)
+
+### CSV column mapping (confirmed):
+- Column: `Collected Time` (5th from right in Clio web view)
+- Attorney name column: `Responsible Attorney`
+- Total row label: `Total:` (bottom of web output per user)
+- CSV file naming: `Revenue report (MM_DD_YYYY).csv`
+
+### Attorney name format in Clio CSV:
+John Whiteman, James Hatfield, James Whitehouse, David  Abraham (note: double space),
+Shaun Saliba, Ann Miles, Rachael Greene, Felecia Walker, Josh Saxon
+
 ## What's Still Needed to Continue
-1. Clio Revenue CSV export — to see column headers and attorney name format
-2. Sending email address (Office 365 account payroll emails go out from)
-3. Office 365 credentials / app password for SMTP auth
+1. Sending email address (Office 365 account payroll emails go out from)
+2. Office 365 credentials / app password for SMTP auth
+3. Confirm delta approach is acceptable before building script
 
 ## File Transfer
 - User is on Windows 11
