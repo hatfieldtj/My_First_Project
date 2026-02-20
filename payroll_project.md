@@ -34,29 +34,27 @@ Automating a bi-weekly payroll process for a law firm (Hatfield).
 
 ## Excel File Structure (fully analyzed)
 
-### Sheet1 — Commissioned Attorneys
-Each attorney has their own section with:
-- Historical revenue by year (columns D-E)
-- `Total Fees Collected` = Clio all-time revenue (pulled from F35–F43)
-- Commission formula calculates: Total Owed - Total Paid To Date = Owed This Period
-- Minimum pay floor (~$1,500–$4,615 depending on attorney)
-- `Paid This Period` flows into the payroll summary (column G, rows 2–26)
+### Sheet1 (will be renamed: "Payroll") — Commissioned Attorneys
+Each attorney has their own section with commission calculations.
+Formulas pull revenue totals from Sheet3. **Script does not write to Sheet1.**
 
-**THE KEY CELLS — Clio all-time revenue inputs:**
+### Sheet3 (will be renamed: "Revenue") — THE AUTOMATION TARGET
+**Range: Columns A–D, Rows 34–42**
 
-| Cell | Attorney | Current All-Time Revenue |
-|------|----------|--------------------------|
-| F35 | John L. Whiteman | 2,850,211.41 |
-| F36 | James E. Hatfield | (PCLaw + Clio combined) |
-| F37 | James G. Whitehouse | 5,072,639.34 |
-| F38 | David T. Abraham | 2,132,667.20 |
-| F39 | Shaun C. Saliba | 2,314,998.25 |
-| F40 | Ann Miles | 386,862.40 |
-| F41 | Rachael W. Greene | 867,031.31 |
-| F42 | Felecia Walker | 891,668.51 |
-| F43 | Josh Saxon | 350,205.90 |
+| Col A (Attorney) | Col B (PCLaw legacy) | Col C (Clio — UPDATE THIS) | Col D (Total = B+C) |
+|-----------------|----------------------|---------------------------|---------------------|
+| John Whiteman | 2,322,149.11 | 528,062.30 | =B34+C34 |
+| James Hatfield | 726,137.42 | 422,827.53 | =B35+C35 |
+| James Whitehouse | 3,515,395.54 | 1,557,243.80 | =B36+C36 |
+| David Abraham | 1,954,363.51 | 178,303.69 | =B37+C37 |
+| Shaun Saliba | 1,463,193.36 | 851,804.89 | =B38+C38 |
+| Ann Miles | 0 | 386,862.40 | =B39+C39 |
+| Rachael Greene | 0 | 867,031.31 | =C40 |
+| Felecia Walker | — | 891,668.51 | =C41 |
+| Josh Saxon | — | 350,205.90 | =C42 |
 
-**Automation target:** Update F35–F43 with new Clio all-time totals each pay period. Existing formulas handle the rest.
+**Automation writes ONLY to Sheet3, Column C, rows 34–42.**
+Sheet1 formulas recalculate automatically from there.
 
 **Payroll Summary (Sheet1, Column F-G, Rows 1–26):**
 
