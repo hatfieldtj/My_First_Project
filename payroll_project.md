@@ -139,9 +139,32 @@ Row mapping (Revenue → Payroll):
 
 ### Step 4 — Save & push to GitHub
 
+## Step 4 — Email each attorney their payroll section
+After saving the file, email each attorney cols A–B of their section (HTML table in body).
+Subject line: "Payroll"
+Sent via Office 365 (custom domain: sjlawgroup.com)
+
+### Attorney email ranges & addresses:
+| Attorney | Range | Email |
+|----------|-------|-------|
+| John L. Whiteman | A1:B10 | jwhiteman@sjlawgroup.com |
+| James E. Hatfield | A22:B34 | jameshatfield@sjlawgroup.com |
+| James G. Whitehouse | A43:B57 | jameswhitehouse@sjlawgroup.com |
+| David T. Abraham | A60:B68 | dabraham@sjlawgroup.com |
+| Shaun C. Saliba | A76:B95 | ssaliba@sjlawgroup.com |
+| Ann Miles | A97:B106 | amiles@sjlawgroup.com |
+| Rachael W. Greene | A110:B119 | rgreene@sjlawgroup.com |
+| Felecia Walker | A123:B131 | fwalker@sjlawgroup.com |
+| Josh Saxon | A135:B144 | jsaxon@sjlawgroup.com |
+
+Section boundaries detected via borders:
+- Start: medium top border on Col A (attorney name header)
+- End: double bottom border on Col B (Paid This Period row)
+
 ## What's Still Needed to Continue
 1. Clio Revenue CSV export — to see column headers and attorney name format
-2. Confirm attorney name mapping between Clio and Excel
+2. Sending email address (Office 365 account payroll emails go out from)
+3. Office 365 credentials / app password for SMTP auth
 
 ## File Transfer
 - User is on Windows 11
