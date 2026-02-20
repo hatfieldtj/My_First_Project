@@ -93,24 +93,41 @@ Employees: Jon Hatfield, Morris McEvoy, Michele Blevins, Hillary Mesa, Alex Nunc
 ### Sheet3 — New Attorney
 Similar structure to Sheet1 commission sections. Used for new attorney onboarding.
 
-## What's Still Needed to Continue
-1. Clio Revenue CSV export — to see exact column headers and attorney name format
-2. Confirm attorney name mapping: do Clio names exactly match the names above?
+## Full Automation Steps (per pay period)
 
-## File Transfer Decision
+### Step 1 — Copy & rename file
+Copy current file, rename to new period end date: `PERIOD ENDING MM-DD-YYYY.xlsx`
+
+### Step 2 — Carry forward YTD Paid ADP (Payroll sheet)
+Column J holds formula: `new YTD = old YTD + paid this period`
+Script reads J value (calculated) and writes it into the YTD Paid ADP cell (col E):
+
+| Attorney | Read from (Col J) | Write to (YTD Paid ADP) |
+|----------|-------------------|--------------------------|
+| John Whiteman | J11 = E20+B10 | E20 |
+| James Hatfield | J35 = B34+E41 | E41 |
+| James Whitehouse | J51 = B57+E58 | E58 |
+| David Abraham | J69 = B68+E73 | E73 |
+| Shaun Saliba | J87 = B95+E90 | E90 |
+| Ann Miles | J105 = B106+E103 | E103 |
+| Rachael Greene | J118 = B119+E115 | E115 |
+| Felecia Walker | J128 = B131+E128 | E128 |
+| Josh Saxon | J139 = B144+E140 | E140 |
+
+### Step 3 — Update Clio revenue (Revenue sheet)
+Update Revenue sheet, Column C, rows 34–42 with new Clio all-time totals from CSV.
+
+### Step 4 — Save & push to GitHub
+
+## What's Still Needed to Continue
+1. Clio Revenue CSV export — to see column headers and attorney name format
+2. Confirm attorney name mapping between Clio and Excel
+
+## File Transfer
 - User is on Windows 11
 - Files uploaded to GitHub (hatfieldtj/My_First_Project), pulled to VPS via `git pull`
 - VPS path: `/root/My_First_Project/`
 
-## Planned Automation Script
-1. User exports Clio Revenue report as CSV, uploads to GitHub
-2. Script runs `git pull` to get latest files
-3. Script reads CSV, maps attorney names to F35–F43 cells
-4. Script decrypts Excel (password: Indy500), updates F35–F43 with new Clio totals
-5. Existing formulas recalculate commissions automatically
-6. Script saves dated copy: `PERIOD ENDING MM-DD-YYYY.xlsx`
-7. Script pushes updated file back to GitHub (or Box via rclone)
-
-## Python Libraries Needed
-- `msoffcrypto-tool` — decrypt password-protected Excel file (already installed)
-- `openpyxl` — read/write Excel (already installed)
+## Python Libraries (already installed on VPS)
+- `msoffcrypto-tool` — decrypt password-protected Excel file
+- `openpyxl` — read/write Excel
